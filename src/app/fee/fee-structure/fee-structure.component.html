@@ -1,0 +1,49 @@
+<div class="p-2">
+    <div class="py-2 text-gray-400">
+        Structures
+    </div>
+    <div class="flex justify-end p-1">
+        <button
+            class="inline-block rounded border border-indigo-600 bg-indigo-600 px-8 py-3  font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+            (click)="addStructure()">Add Structure
+        </button>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y-2 divide-gray-200 bg-white ">
+            <thead>
+                <tr>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Structure Name</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Period</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Offset</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Comment</th>
+                    <th class="px-4 py-2"></th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+                @for (item of store;track item.id) {
+                <tr class="h-10 border-b text-center">
+                    <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ item.id }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.structure_name }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.period }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.offset }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.comment }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                        <div class="text-xs flex gap-1">
+
+                            <button
+                                class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+                                (click)="manageStructure(item)">Manage</button>
+
+                        </div>
+                    </td>
+                </tr>
+                } @empty {
+                <label> There are no items. </label>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

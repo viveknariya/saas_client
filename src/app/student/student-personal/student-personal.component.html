@@ -1,0 +1,142 @@
+@if(actionMessage != ""){
+<div role="alert" class="absolute right-0 top-0 rounded-xl border border-gray-100 bg-gray-100 p-4">
+    <div class="flex items-start gap-4">
+        <span class="text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </span>
+
+        <div class="flex-1">
+            <strong class="block font-medium text-gray-900"> Changes saved </strong>
+
+            <p class="mt-1  text-gray-700">Your product changes have been saved.</p>
+        </div>
+
+        <button class="text-gray-500 transition hover:text-gray-600" (click)="popupClose()">
+            <span class="sr-only">Dismiss popup</span>
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+</div>
+}
+<div class="flex flex-col gap-1 w-full h-full overflow-y-auto no-scrollbar p-1">
+    <div class="flex justify-between">
+        <div class="flex gap-1">
+            <div class="inline-flex -space-x-px overflow-hidden rounded-md border bg-white shadow-sm">
+
+                <button class="inline-block px-4 py-2  font-medium text-gray-700 hover:bg-gray-50 focus:relative"
+                    (click)="editStudentPersonal()">Save</button>
+
+                <button class="inline-block px-4 py-2  font-medium text-gray-700 hover:bg-gray-50 focus:relative"
+                    (click)="resetForm()">Reset</button>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <form [formGroup]="editStudent" class="flex flex-col gap-2 items-center">
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> ID </label>
+
+                <input type="text" placeholder="ID" formControlName="id"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> First Name </label>
+
+                <input type="text" placeholder="First Name" formControlName="first_name"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Last Name </label>
+
+                <input type="text" placeholder="Last Name" formControlName="last_name"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+
+                <label class="block  font-medium text-gray-900"> Gender </label>
+
+                <select formControlName="gender" text class="mt-1.5 w-6/12 rounded-lg border-gray-300 text-gray-700 ">
+                    <option *ngFor="let item of genders" [value]="item.value">
+                        {{item.name}}</option>
+                </select>
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Date Of Birth </label>
+
+                <input type="date" placeholder="Date Of Birth" formControlName="date_of_birth"
+                    class="mt-1 w-6/12 rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+
+            <div class="w-6/12">
+
+                <label class="block  font-medium text-gray-900"> Standard </label>
+
+                <select formControlName="standard" text class="mt-1.5 w-6/12 rounded-lg border-gray-300 text-gray-700 ">
+                    @for (item of standards;track item.value) {
+                    <option [value]="item.value">{{item.name}}</option>
+                    }@empty {
+                    <label> There are no items.</label>
+                    }
+                </select>
+            </div>
+
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Parents Name </label>
+
+                <input type="text" placeholder="Parents Name" formControlName="parents_name"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Parents Mobile </label>
+
+                <input type="text" placeholder="Parents Mobile" formControlName="parents_mobile"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> School Name </label>
+
+                <select formControlName="school_name" text
+                    class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 ">
+                    @for (item of schools;track item.value) {
+                    <option [value]="item.value">{{item.name}}</option>
+                    }@empty {
+                    <label> There are no items.</label>
+                    }
+                </select>
+            </div>
+
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Date Of Admission </label>
+
+                <input type="date" placeholder="Date Of Admission" formControlName="date_of_admission"
+                    class="mt-1 w-6/12 rounded-md border-gray-200 shadow-sm " />
+            </div>
+
+            <div class="w-6/12">
+                <label class="block  font-medium text-gray-700"> Comment </label>
+
+                <textarea type="" placeholder="Comment" formControlName="comment"
+                    class="mt-1 w-full rounded-md border-gray-200 shadow-sm "></textarea>
+            </div>
+
+        </form>
+    </div>
+</div>

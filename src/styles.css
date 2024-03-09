@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "inter";
+  src: url("../src/assets/Inter/Inter-VariableFont_slnt\,wght.ttf");
+}
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display:none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: inter;
+    
+}

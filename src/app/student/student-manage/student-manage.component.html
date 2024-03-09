@@ -1,0 +1,60 @@
+<div class="flex flex-col p-1 gap-1">
+    @if(!skipOnInit){
+    <div class="flex justify-between items-center">
+        <div class="flex gap-2 items-center">
+            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="" class="aspect-square w-20 rounded-lg object-cover" />
+
+            <div>
+                <h3 class="font-medium text-gray-900">{{selectedStudent.first_name}}
+                    {{selectedStudent.last_name}}</h3>
+
+                <div class="mt-0.5 text-gray-700">
+                    <div class="flex">
+                        <div>
+                            Standard
+                        </div>
+                        <div>
+                            : {{selectedStudent.standard}}
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div>
+                            Gender
+                        </div>
+                        <div>
+                            : {{selectedStudent.gender}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    }
+    <div>
+        <span class="inline-flex overflow-hidden rounded-md border bg-white shadow-sm">
+            <button (click)="changeTab('personal')"
+                [ngClass]="{'bg-white':isActiveTab == 'personal','text-blue-500':isActiveTab == 'personal'}"
+                class="inline-block border-e p-3 text-gray-700 hover:bg-gray-50 focus:relative">
+                Personal Info
+            </button>
+
+            <button (click)="changeTab('fee')"
+                [ngClass]="{'bg-white':isActiveTab == 'fee','text-blue-500':isActiveTab == 'fee'}"
+                class="inline-block border-e p-3 text-gray-700 hover:bg-gray-50 focus:relative">
+                Fees List
+            </button>
+        </span>
+    </div>
+
+    <span class="flex items-center">
+        <span class="h-px flex-1 bg-black"></span>
+        <span class="shrink-0 px-6 text-base">{{ isActiveTab }} Information</span>
+        <span class="h-px flex-1 bg-black"></span>
+    </span>
+
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

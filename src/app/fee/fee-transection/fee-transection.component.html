@@ -1,0 +1,34 @@
+<div class="p-2">
+    <div class="py-2 text-gray-400">
+        Transactions
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y-2 divide-gray-200 bg-white ">
+            <thead>
+                <tr>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Student ID</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Amount</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Mode Of Transaction</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date Of Transaction</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Comment</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+                @for (item of store;track item.id) {
+                <tr class="h-10 border-b text-center">
+                    <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ item.id }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ item.student_id }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.amount }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.mode_of_transection }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.comment }}</td>
+                </tr>
+                } @empty {
+                <label> There are no items. </label>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
