@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FieldsStudent, RecordStudent, StudentService } from '../student.service';
 import { Router } from '@angular/router';
 import { StudentFeeService } from './student-fee.service';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-student-fee',
@@ -33,7 +33,7 @@ export class StudentFeeComponent implements OnInit {
     }
     this.selectedStudent = this.studentService.selectedStudent();
 
-    this.httpClient.get<FieldsFee[]>(`${BackendConstant.BASE_URL}/api/FeeTransection`).subscribe({
+    this.httpClient.get<FieldsFee[]>(`${environment.apiUrl}/api/FeeTransection`).subscribe({
       next: (nxt:FieldsFee[]) => {
         this.store = nxt;
         

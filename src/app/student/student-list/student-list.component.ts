@@ -3,7 +3,7 @@ import { FieldsStudent, RecordStudent, Standard, StudentService } from '../stude
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-student-list',
@@ -80,7 +80,7 @@ export class StudentListComponent {
     })
 
     console.log("student list ngOnInit");
-    this.httpClient.get<FieldsStudent[]>(`${BackendConstant.BASE_URL}/api/student`).subscribe({
+    this.httpClient.get<FieldsStudent[]>(`${environment.apiUrl}/api/student`).subscribe({
       next: (data:FieldsStudent[]) => {
         this.store = data as FieldsStudent[];
         this.data = data as FieldsStudent[];

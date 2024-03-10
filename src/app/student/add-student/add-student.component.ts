@@ -4,7 +4,7 @@ import { FieldsStudent, Gender, RecordStudent, School, Standard, StudentService,
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 import { FieldsFeeStructure } from '../../fee/fee.service';
 
 @Component({
@@ -78,7 +78,7 @@ export class AddStudentComponent implements OnInit {
       return;
     }
     
-    this.httpClient.post<FieldsStudent>(`${BackendConstant.BASE_URL}/api/student`,this.addStudent.value).subscribe({
+    this.httpClient.post<FieldsStudent>(`${environment.apiUrl}/api/student`,this.addStudent.value).subscribe({
       next: (data:FieldsStudent) => {
         console.log(data);
         this.addStudent.patchValue(data);

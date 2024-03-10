@@ -4,7 +4,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { Standard, School, Gender, RecordStudent, StudentService, FieldsStudent, errorSuccess } from '../student.service';
 import { CommonModule } from '@angular/common';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 import { FieldsFeeStructure } from '../../fee/fee.service';
 
 @Component({
@@ -89,7 +89,7 @@ export class StudentPersonalComponent {
     }
 
     this.editStudent.controls["id"].enable();
-    this.httpClient.put<FieldsStudent>(`${BackendConstant.BASE_URL}/api/student`,this.editStudent.value).subscribe({
+    this.httpClient.put<FieldsStudent>(`${environment.apiUrl}/api/student`,this.editStudent.value).subscribe({
       next: (data:FieldsStudent) => {
         data.date_of_admission = (new Date(data.date_of_admission as string)).toISOString().split("T")[0];
         data.date_of_birth = (new Date(data.date_of_birth as string)).toISOString().split("T")[0];

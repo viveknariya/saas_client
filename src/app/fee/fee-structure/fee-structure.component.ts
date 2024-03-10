@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 import { FieldsStudent} from '../../student/student.service';
 import { FeeService, FieldsFeeStructure } from '../fee.service';
 
@@ -18,7 +18,7 @@ export class FeeStructureComponent {
   }
 
   ngOnInit(): void {
-    this.httpClient.get<FieldsFeeStructure[]>(`${BackendConstant.BASE_URL}/api/FeeStructure`).subscribe({
+    this.httpClient.get<FieldsFeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
       next: (data:FieldsFeeStructure[]) => {
         this.store = data as FieldsFeeStructure[];
       },

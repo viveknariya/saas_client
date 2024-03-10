@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { BackendConstant } from '../backend';
 import { FieldsFeeStructure } from '../fee/fee.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class StudentService {
   constructor(private http:HttpClient) { 
     this.selectedStandard.set(this.standards[0]);
     console.log("student service call")
-    this.http.get<FieldsFeeStructure[]>(`${BackendConstant.BASE_URL}/api/FeeStructure`).subscribe({
+    this.http.get<FieldsFeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
       next:(nxt) => {
         this.FeeStructureList = nxt;
       },

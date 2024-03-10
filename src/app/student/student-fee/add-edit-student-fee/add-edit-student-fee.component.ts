@@ -4,8 +4,8 @@ import { ModeOfTransections, StudentFeeService } from '../student-fee.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FieldsFee } from '../../../fee/fee.service';
-import { BackendConstant } from '../../../backend';
 import { StudentService } from '../../student.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-add-edit-student-fee',
@@ -24,7 +24,7 @@ export class AddEditStudentFeeComponent {
   }
   addEditStudentFee(){
     if(this.isAddMode){
-      this.httpClient.post<FieldsFee>(`${BackendConstant.BASE_URL}/api/FeeTransection`,this.addEditFee.value).subscribe({
+      this.httpClient.post<FieldsFee>(`${environment.apiUrl}/api/FeeTransection`,this.addEditFee.value).subscribe({
         next: (data:FieldsFee) => {
           console.log(data);
           this.addEditFee.patchValue(data);
@@ -42,7 +42,7 @@ export class AddEditStudentFeeComponent {
     else{
       this.addEditFee.controls["id"].enable();
       this.addEditFee.controls["student_id"].enable();
-      this.httpClient.put<FieldsFee>(`${BackendConstant.BASE_URL}/api/FeeTransection`,this.addEditFee.value).subscribe({
+      this.httpClient.put<FieldsFee>(`${environment.apiUrl}/api/FeeTransection`,this.addEditFee.value).subscribe({
         next: (data:FieldsFee) => {
           console.log(data);
           this.addEditFee.patchValue(data);

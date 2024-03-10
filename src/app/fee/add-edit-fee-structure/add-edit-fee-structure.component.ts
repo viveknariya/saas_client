@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { FeeService, FieldsFeeStructure, Period } from '../fee.service';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-add-edit-fee-structure',
@@ -21,7 +21,7 @@ export class AddEditFeeStructureComponent {
 
   addEditStudentFee(){
     if(this.isAddMode){
-      this.httpClient.post<FieldsFeeStructure>(`${BackendConstant.BASE_URL}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
+      this.httpClient.post<FieldsFeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
         next: (data:FieldsFeeStructure) => {
           this.addEditFeeStructure.patchValue(data);
           this.actionMessage = "Added Successfully"
@@ -37,7 +37,7 @@ export class AddEditFeeStructureComponent {
     }
     else{
         this.addEditFeeStructure.controls["id"].enable();
-        this.httpClient.put<FieldsFeeStructure>(`${BackendConstant.BASE_URL}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
+        this.httpClient.put<FieldsFeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
         next: (data:FieldsFeeStructure) => {
           this.addEditFeeStructure.patchValue(data);
           this.actionMessage = "Edited Successfully"

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldsFee } from '../fee.service';
 import { HttpClient } from '@angular/common/http';
-import { BackendConstant } from '../../backend';
+import { environment } from '../../../environments/environment';
 import { FieldsStudent } from '../../student/student.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class FeeTransectionComponent implements OnInit {
   store:FieldsFee[] = [];
   constructor(private httpClient:HttpClient){}
   ngOnInit(): void {
-    this.httpClient.get<FieldsFee[]>(`${BackendConstant.BASE_URL}/api/FeeTransection`).subscribe({
+    this.httpClient.get<FieldsFee[]>(`${environment.apiUrl}/api/FeeTransection`).subscribe({
       next: (data:FieldsFee[]) => {
         this.store = data;
       },
