@@ -1,7 +1,7 @@
-@if(actionMessage != ""){
+@if(errorSuccess.errorSuccessMessage != ""){
 <div role="alert" class="absolute right-0 top-0 rounded-xl border border-gray-100 bg-gray-100 p-4">
     <div class="flex items-start gap-4">
-        <span class="text-green-600">
+        <span [ngClass]="errorSuccess.isError ? 'text-red-600' : 'text-green-600'">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="h-6 w-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -10,9 +10,16 @@
         </span>
 
         <div class="flex-1">
-            <strong class="block font-medium text-gray-900"> Changes saved </strong>
+            <strong class="block font-medium text-gray-900">
+                @if(errorSuccess.isError){
+                ! Alert
+                }
+                @else{
+                OK
+                }
+            </strong>
 
-            <p class="mt-1  text-gray-700">Your product changes have been saved.</p>
+            <p class="mt-1  text-gray-700">{{errorSuccess.errorSuccessMessage}}</p>
         </div>
 
         <button class="text-gray-500 transition hover:text-gray-600" (click)="popupClose()">
@@ -88,6 +95,20 @@
                 <select formControlName="standard" text class="mt-1.5 w-6/12 rounded-lg border-gray-300 text-gray-700 ">
                     @for (item of standards;track item.value) {
                     <option [value]="item.value">{{item.name}}</option>
+                    }@empty {
+                    <label> There are no items.</label>
+                    }
+                </select>
+            </div>
+
+            <div class="w-6/12">
+
+                <label class="block  font-medium text-gray-900"> Fee Structure </label>
+
+                <select formControlName="fee_structure" text
+                    class="mt-1.5 w-6/12 rounded-lg border-gray-300 text-gray-700 ">
+                    @for (item of FeeStructureList;track item.id ) {
+                    <option [value]="item.id">{{item.structure_name}}</option>
                     }@empty {
                     <label> There are no items.</label>
                     }

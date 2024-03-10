@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StudentService, Standard } from './student.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-student',

@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { BackendConstant } from '../backend';
+import { FieldsFeeStructure } from '../fee/fee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +36,22 @@ export class StudentService {
   ];
   selectedStudent = signal<FieldsStudent>({} as FieldsStudent);
   selectedStandard = signal<Standard>(this.standards[0]);
+  FeeStructureList:FieldsFeeStructure[] = [];
 
-  constructor() { 
+  constructor(private http:HttpClient) { 
     this.selectedStandard.set(this.standards[0]);
+    console.log("student service call")
+    this.http.get<FieldsFeeStructure[]>(`${BackendConstant.BASE_URL}/api/FeeStructure`).subscribe({
+      next:(nxt) => {
+        this.FeeStructureList = nxt;
+      },
+      error:(err) => {
+        console.log(err);
+      },
+      complete:() => {
+        console.log("completed");
+      }
+    })
   }
 }
 export interface RootObjectStudent {
@@ -71,4 +87,9 @@ export interface Gender{
 export interface School{
   name: string;
   value:string;
+}
+
+export interface errorSuccess{
+  errorSuccessMessage: string;
+  isError:boolean;
 }

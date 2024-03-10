@@ -1,10 +1,11 @@
 import { Component, OnInit, effect } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FieldsStudent, Gender, RecordStudent, School, Standard, StudentService } from '../student.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FieldsStudent, Gender, RecordStudent, School, Standard, StudentService, errorSuccess } from '../student.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BackendConstant } from '../../backend';
+import { FieldsFeeStructure } from '../../fee/fee.service';
 
 @Component({
   selector: 'app-add-student',
@@ -22,22 +23,26 @@ export class AddStudentComponent implements OnInit {
   standards!: Standard[];
   schools!: School[];
   genders!: Gender[];
-  actionMessage!: string;
+  errorSuccess!: errorSuccess;
 
   addStudent:FormGroup;
+  FeeStructureList:FieldsFeeStructure[] = [];
 
   constructor(private studentService:StudentService,private router:Router,private httpClient:HttpClient){
+    this.FeeStructureList = this.studentService.FeeStructureList;
+    
     this.addStudent = new FormGroup({
       id: new FormControl({ value: null, disabled: true }),
-      first_name: new FormControl(),
-      last_name: new FormControl(),
-      gender: new FormControl(this.studentService.genders[0].value),
-      date_of_birth: new FormControl(),
-      standard: new FormControl(this.studentService.standards[1].value),
-      parents_name: new FormControl(),
-      parents_mobile: new FormControl(),
-      school_name: new FormControl(this.studentService.schools[0].value),
-      date_of_admission: new FormControl(),
+      first_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
+      last_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
+      gender: new FormControl(this.studentService.genders[0].value,[Validators.required]),
+      date_of_birth: new FormControl(null,[Validators.required]),
+      standard: new FormControl(this.studentService.standards[1].value,[Validators.required]),
+      parents_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
+      parents_mobile: new FormControl(null,[Validators.required,Validators.pattern("[+][0-9]{1,3}[0-9]{10}")]),
+      school_name: new FormControl(this.studentService.schools[0].value,[Validators.required]),
+      fee_structure: new FormControl(this.FeeStructureList[0].id,[Validators.required]),
+      date_of_admission: new FormControl(null,[Validators.required]),
       comment: new FormControl(),
     });
 
@@ -45,7 +50,10 @@ export class AddStudentComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError : false,
+      errorSuccessMessage : ""  
+    }
     this.standards = this.studentService.standards.slice(1);
     this.schools = this.studentService.schools;
     this.genders = this.studentService.genders;
@@ -57,14 +65,27 @@ export class AddStudentComponent implements OnInit {
 
   addStudentPersonal(){
 
-    //const payload = this.createPayload();
-    console.log("add payload");
-    //console.log(payload);
+    for (const key in this.addStudent.controls) {
+      if (this.addStudent.controls[key].errors != null) {
+        this.errorSuccess = {
+          isError: true,
+          errorSuccessMessage: (<any>this.validationMessages)[key]
+        };
+        break; // Exit the loop once an error is found
+      }
+    }
+    if(this.errorSuccess.isError){
+      return;
+    }
+    
     this.httpClient.post<FieldsStudent>(`${BackendConstant.BASE_URL}/api/student`,this.addStudent.value).subscribe({
       next: (data:FieldsStudent) => {
         console.log(data);
         this.addStudent.patchValue(data);
-        this.actionMessage = "Added Successfully"
+        this.errorSuccess = {
+          isError : false,
+          errorSuccessMessage : "Student added successfully"
+        }
       },
       error: (error:any) => {
         console.log(error)
@@ -103,6 +124,22 @@ export class AddStudentComponent implements OnInit {
   }
 
   popupClose(){
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError : false,
+      errorSuccessMessage : ""
+    }
   }
-}
+
+  validationMessages = {
+    first_name: 'First name is required and must be at least 3 characters long. valid char are a-z,A-Z',
+    last_name: 'Last name is required and must be at least 3 characters long. valid char are a-z,A-Z',
+    gender: 'Gender is required.',
+    date_of_birth: 'Date of birth is required.',
+    standard:  'Standard is required.',
+    parents_name: 'Parents name is required and must be at least 3 characters long.',
+    parents_mobile: 'Parents mobile number is required. & Please enter a valid mobile number.',
+    fee_structure: 'Fee structure is required.'
+    }
+  };
+  
+
