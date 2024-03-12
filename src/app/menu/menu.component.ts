@@ -1,7 +1,9 @@
-import { Component, effect } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { Standard, StudentService } from '../student/student.service';
 import { CommonModule } from '@angular/common';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { ResponsiveService } from '../responsive.service';
 
 @Component({
   selector: 'app-menu',
@@ -14,23 +16,40 @@ export class MenuComponent {
   selectedMenu!: string;
   Standards:Standard[]=[];
   activeStandard!: Standard;
-  constructor(private studentService:StudentService,private router:Router){
+
+  isSmallScreen!:boolean;
+  showSubMenu!:boolean;
+
+  constructor(private studentService:StudentService,private router:Router,private responsive:ResponsiveService){
     this.Standards = this.studentService.standards;
     this.selectedMenu = "student";
     effect(() => {
       this.activeStandard = this.studentService.selectedStandard();
+      this.isSmallScreen = this.responsive.isSmallScreen();
+      this.showSubMenu = this.responsive.showSubMenu();
     })
   }
-  standardFilter(item:Standard){
-    this.studentService.selectedStandard.set(item);
-    this.router.navigate(['/student']);
+  
+  subMenuToggle(){
+    this.responsive.showSubMenu.set(!this.showSubMenu);
   }
+  
   toNavigate(val:string){
+    if(this.selectedMenu != val){
+      this.responsive.showSubMenu.set(true);
+    }
+    else{
+      this.subMenuToggle();
+    }
     this.selectedMenu = val; 
     this.router.navigate([val])
     this.studentService.selectedStandard.set(this.studentService.standards[0]);
-
   }
 
+  toNavigateSub(val:string){
+    this.responsive.showSubMenu.set(false);
+    this.router.navigate([val])
+    this.studentService.selectedStandard.set(this.studentService.standards[0]);
+  }
   
 }

@@ -11,6 +11,7 @@ module.exports = {
       20: "repeat(20, minmax(0, 1fr))",
     },
     gridColumn: {
+      "span-20": "span 20 / span 20",
       "span-16": "span 16 / span 20",
       "span-4": "span 4 / span 20",
     },

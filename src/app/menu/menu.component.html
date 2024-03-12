@@ -55,7 +55,8 @@
         </div>
     </div>
     @if(selectedMenu == "student"){
-    <div class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
+    <div [ngClass]="isSmallScreen && !showSubMenu ? 'hidden':''"
+        class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
         <div class="p-2">
             <div>
                 <label class="block rounded-lg  p-2 font-medium text-gray-700">
@@ -65,7 +66,7 @@
             <ul class="mt-10 space-y-1">
 
                 <li>
-                    <div (click)="toNavigate('student')"
+                    <div (click)="toNavigateSub('student')"
                         class="flex cursor-pointer items-center justify-between rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                         <span class=" font-medium"> Students List </span>
                     </div>
@@ -74,7 +75,8 @@
         </div>
     </div>
     }@else{
-    <div class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
+    <div [ngClass]="isSmallScreen && !showSubMenu ? 'hidden':''"
+        class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
         <div class="p-2">
             <div>
                 <label class="block rounded-lg  p-2 font-medium text-gray-700">
@@ -84,26 +86,23 @@
             <ul class="mt-10 space-y-1">
 
                 <li>
-                    <div (click)="toNavigate('fee/feeStructure')"
+                    <div (click)="toNavigateSub('fee/feeStructure')"
                         class="flex cursor-pointer items-center justify-between rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                         <span class=" font-medium"> Structures</span>
                     </div>
 
-                    <div (click)="toNavigate('fee/feeTransection')"
+                    <div (click)="toNavigateSub('fee/feeTransection')"
                         class="flex cursor-pointer items-center justify-between rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                         <span class=" font-medium"> Transactions </span>
                     </div>
 
-                    <div (click)="toNavigate('fee/feeAnalytics')"
+                    <div (click)="toNavigateSub('fee/feeAnalytics')"
                         class="flex cursor-pointer items-center justify-between rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                         <span class=" font-medium"> Analytics </span>
                     </div>
-
-
                 </li>
             </ul>
         </div>
     </div>
     }
-
 </div>
