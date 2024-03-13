@@ -54,9 +54,8 @@
             </form>
         </div>
     </div>
-    @if(selectedMenu == "student"){
-    <div [ngClass]="isSmallScreen && !showSubMenu ? 'hidden':''"
-        class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
+    <div [ngClass]="{'hidden':(isSmallScreen && !showSubMenu) || !showStudent}"
+        class="flex w-48 h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
         <div class="p-2">
             <div>
                 <label class="block rounded-lg  p-2 font-medium text-gray-700">
@@ -74,9 +73,8 @@
             </ul>
         </div>
     </div>
-    }@else{
-    <div [ngClass]="isSmallScreen && !showSubMenu ? 'hidden':''"
-        class="flex h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
+    <div [ngClass]="{'hidden':(isSmallScreen && !showSubMenu) || showStudent}"
+        class="flex w-48 h-screen flex-1 flex-col justify-between border-e bg-white overflow-y-auto no-scrollbar">
         <div class="p-2">
             <div>
                 <label class="block rounded-lg  p-2 font-medium text-gray-700">
@@ -104,5 +102,5 @@
             </ul>
         </div>
     </div>
-    }
+
 </div>

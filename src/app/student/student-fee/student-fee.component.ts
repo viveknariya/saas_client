@@ -17,7 +17,6 @@ export class StudentFeeComponent implements OnInit {
   skipOnInit:boolean = false;
   actionMessage!: string;
   store:FieldsFee[] =[];
-  data:FieldsFee[] = [];
   selectedStudent!: FieldsStudent;
 
   constructor(private studentFeeService:StudentFeeService,private studentService:StudentService,private router:Router,private httpClient:HttpClient) {
@@ -33,18 +32,9 @@ export class StudentFeeComponent implements OnInit {
     }
     this.selectedStudent = this.studentService.selectedStudent();
 
-    this.httpClient.get<FieldsFee[]>(`${environment.apiUrl}/api/FeeTransection`).subscribe({
+    this.httpClient.get<FieldsFee[]>(`${environment.apiUrl}/api/FeeTransection/student/${this.selectedStudent.id}`).subscribe({
       next: (nxt:FieldsFee[]) => {
         this.store = nxt;
-        
-        this.data = this.store.filter((fee:FieldsFee) => {
-          if(fee.student_id == this.selectedStudent.id){
-            return true;
-          }
-          else{
-            return false;
-          }
-        })
       }
     })
   }
@@ -62,7 +52,7 @@ export class StudentFeeComponent implements OnInit {
   }
 
   deleteStudentFee(item:FieldsFee){
-    this.httpClient.delete<any>(`https://api.airtable.com/v0/${item.id}`).subscribe({
+    this.httpClient.delete<any>(`${environment.apiUrl}/api/FeeTransection/${item.id}`).subscribe({
       next: (data:any) => {
         console.log(data);
         this.actionMessage = "Deleted Successfully"

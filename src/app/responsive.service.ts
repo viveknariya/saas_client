@@ -10,7 +10,7 @@ export class ResponsiveService {
   showSubMenu = signal<boolean>(false);
   constructor(private breakpointObserver:BreakpointObserver) { 
 
-    this.breakpointObserver.observe(`(max-width: 768px)`)
+    this.breakpointObserver.observe(`(max-width: 480px)`)
         .subscribe(state => {
           if (state.matches) {
             this.isSmallScreen.set(true);

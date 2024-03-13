@@ -80,8 +80,7 @@ export class AddStudentComponent implements OnInit {
     
     this.httpClient.post<FieldsStudent>(`${environment.apiUrl}/api/student`,this.addStudent.value).subscribe({
       next: (data:FieldsStudent) => {
-        console.log(data);
-        this.addStudent.patchValue(data);
+        this.resetForm();
         this.errorSuccess = {
           isError : false,
           errorSuccessMessage : "Student added successfully"
@@ -92,19 +91,6 @@ export class AddStudentComponent implements OnInit {
       },
       complete: () => {}
     })
-  }
-
-  createPayload() {
-    const payload: any = {};
-    // Iterate through the controls
-    Object.keys(this.addStudent.controls).forEach((key) => {
-      const control:any = this.addStudent.get(key);
-      // Check if the control has a value and it's not null
-      if (control.value !== null && control.value !== "" && key !== "id") {
-        payload[key] = control.value;
-      }
-    });
-    return payload;
   }
 
   resetForm(){

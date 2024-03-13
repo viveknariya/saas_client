@@ -4,19 +4,20 @@ import { ModeOfTransections, StudentFeeService } from '../student-fee.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FieldsFee } from '../../../fee/fee.service';
-import { StudentService } from '../../student.service';
+import { StudentService, errorSuccess } from '../../student.service';
 import { environment } from '../../../../environments/environment';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-student-fee',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './add-edit-student-fee.component.html',
   styleUrl: './add-edit-student-fee.component.css'
 })
 export class AddEditStudentFeeComponent {
   isAddMode!: boolean;
-  actionMessage!: string;
+  errorSuccess!: errorSuccess;
   addEditFee!: FormGroup;
   modeOfTransections:ModeOfTransections[];
   backToFee(){
@@ -24,19 +25,27 @@ export class AddEditStudentFeeComponent {
   }
   addEditStudentFee(){
     if(this.isAddMode){
+      this.addEditFee.controls["student_id"].enable();
       this.httpClient.post<FieldsFee>(`${environment.apiUrl}/api/FeeTransection`,this.addEditFee.value).subscribe({
         next: (data:FieldsFee) => {
-          console.log(data);
-          this.addEditFee.patchValue(data);
-          this.actionMessage = "Added Successfully"
+          this.resetForm();
+          this.errorSuccess = {
+            isError: false,
+            errorSuccessMessage: "Added Successfully",
+          } 
           setTimeout(() => {
-            this.actionMessage = "";
+            this.errorSuccess = {
+              isError: false,
+              errorSuccessMessage: "",
+            }
           }, 2000);
         },
         error: (error:any) => {
           console.log(error)
         },
-        complete: () => {}
+        complete: () => {
+          this.addEditFee.controls["student_id"].disable();
+        }
       })
     }
     else{
@@ -44,11 +53,18 @@ export class AddEditStudentFeeComponent {
       this.addEditFee.controls["student_id"].enable();
       this.httpClient.put<FieldsFee>(`${environment.apiUrl}/api/FeeTransection`,this.addEditFee.value).subscribe({
         next: (data:FieldsFee) => {
-          console.log(data);
-          this.addEditFee.patchValue(data);
-          this.actionMessage = "Edited Successfully"
+          this.resetForm();
+          this.errorSuccess = {
+            isError: false,
+            errorSuccessMessage: "Edited Successfully",
+          
+          } 
           setTimeout(() => {
-            this.actionMessage = "";
+            this.errorSuccess = {
+              isError: false,
+              errorSuccessMessage: "",
+            
+            }
           }, 2000);
         },
         error: (error:any) => {
@@ -64,11 +80,27 @@ export class AddEditStudentFeeComponent {
 
   }
   resetForm(){
-    this.addEditFee.setValue(this.studentFeeService.selectedStudentFee());
+    if(this.isAddMode){
+      this.addEditFee.setValue(this.studentFeeService.selectedStudentFee());
+    }
+    else{
+      this.addEditFee.setValue({
+        id:null,
+        amount: null,
+        mode_of_transection : this.modeOfTransections[0].value,
+        comment:null,
+        date_of_transection:this.formatDate(new Date),
+        student_id:this.studentService.selectedStudent().id,
+      })
+    }
   }
 
   constructor(private studentFeeService:StudentFeeService,private router:Router,private httpClient:HttpClient,private studentService:StudentService){
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError: false,
+      errorSuccessMessage: "",
+    
+    }
     this.modeOfTransections = this.studentFeeService.modeOfTransections;
     this.isAddMode = this.studentFeeService.selectedStudentFeeAddMode();
     this.addEditFee = new FormGroup({
@@ -93,6 +125,11 @@ export class AddEditStudentFeeComponent {
   }
 
   popupClose(){
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError: false,
+      errorSuccessMessage: "",
+
+    
+    }
   }
 }

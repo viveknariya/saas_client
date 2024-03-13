@@ -20,6 +20,8 @@ export class MenuComponent {
   isSmallScreen!:boolean;
   showSubMenu!:boolean;
 
+  showStudent!: boolean;
+
   constructor(private studentService:StudentService,private router:Router,private responsive:ResponsiveService){
     this.Standards = this.studentService.standards;
     this.selectedMenu = "student";
@@ -41,6 +43,12 @@ export class MenuComponent {
     else{
       this.subMenuToggle();
     }
+    if(val == "student"){
+      this.showStudent = true;
+    }
+    else{
+      this.showStudent = false;
+    }
     this.selectedMenu = val; 
     this.router.navigate([val])
     this.studentService.selectedStandard.set(this.studentService.standards[0]);
@@ -51,5 +59,4 @@ export class MenuComponent {
     this.router.navigate([val])
     this.studentService.selectedStandard.set(this.studentService.standards[0]);
   }
-  
 }
