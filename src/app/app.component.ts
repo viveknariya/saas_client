@@ -20,7 +20,8 @@ export class AppComponent {
   showSubMenu!:boolean;
 
   constructor(private router:Router,private responsive:ResponsiveService){
-    this.router.navigate(['/student']);
+
+    this.router.navigate(["/student"])
 
     effect(() => {
       this.isSmallScreen = this.responsive.isSmallScreen();

@@ -23,24 +23,8 @@ export class StudentListComponent {
   activeStandard!: Standard;
  
   constructor(private httpClient:HttpClient,private router:Router,private studentService:StudentService){
-    console.log("student list constructor");
-    // effect(() => {
-    //   const val = this.studentService.selectedStandard();
-    //   if(val.value == "all"){
-    //     this.data = this.store;
-    //     return;
-    //   }
-    //   this.data = this.store.filter((student:RecordStudent) => {
-    //     if(student.fields.standard == val.value){
-    //       return true;
-    //     }
-    //     return false;
-    //   })
-    // })
 
     this.searchStudent = new FormControl();
-
-    
 
     this.Standards = this.studentService.standards;
     effect(() => {
@@ -79,7 +63,6 @@ export class StudentListComponent {
       }
     })
 
-    console.log("student list ngOnInit");
     this.httpClient.get<FieldsStudent[]>(`${environment.apiUrl}/api/student`).subscribe({
       next: (data:FieldsStudent[]) => {
         this.store = data as FieldsStudent[];

@@ -21,6 +21,20 @@ export interface FieldsFee {
   date_of_transection: string;
   comment:string;
 }
+
+export interface FieldFeeTransection {
+  id: number;
+  first_name: string;
+  last_name: string;
+  standard: string;
+  amount: number;
+  student_id: number;
+  comment: string;
+  date_of_transection: string;
+  mode_of_transection: string;
+}
+
+
 export interface FieldsFeeStructure {
   id: string;
   structure_name: string;
@@ -33,4 +47,16 @@ export interface FieldsFeeStructure {
 export interface Period{
   name:string;
   value:string;
+}
+
+export interface FieldsFeeAnalytics {
+  first_name: string;
+  last_name: string;
+  id?: any;
+  student_id?: any;
+  total_fee?: any;
+  paid_fee?: any;
+  unpaid_fee?: any;
+  date_of_transection?: any;
+  standard?: any;
 }

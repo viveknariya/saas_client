@@ -5,6 +5,7 @@ module.exports = {
     extend: {},
     screens: {
       ipadmini: { max: "480px" },
+      notIpadmini: { min: "960px" },
     },
     gridTemplateColumns: {
       // Simple 16 column grid

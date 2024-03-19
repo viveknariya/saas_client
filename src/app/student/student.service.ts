@@ -74,6 +74,7 @@ export interface FieldsStudent {
   date_of_birth: string;
   school_name: string;
   date_of_admission: string;
+  fee_structure_id: string;
 }
 
 export interface Standard{

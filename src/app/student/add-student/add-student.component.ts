@@ -41,7 +41,7 @@ export class AddStudentComponent implements OnInit {
       parents_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
       parents_mobile: new FormControl(null,[Validators.required,Validators.pattern("[+][0-9]{1,3}[0-9]{10}")]),
       school_name: new FormControl(this.studentService.schools[0].value,[Validators.required]),
-      fee_structure: new FormControl(this.FeeStructureList[0].id,[Validators.required]),
+      fee_structure_id: new FormControl(this.studentService.FeeStructureList[0].id,[Validators.required]),
       date_of_admission: new FormControl(null,[Validators.required]),
       comment: new FormControl(),
     });
@@ -105,6 +105,7 @@ export class AddStudentComponent implements OnInit {
       parents_mobile: null,
       school_name: this.studentService.schools[0].value,
       date_of_admission: null,
+      fee_structure_id:this.studentService.FeeStructureList[0].id,
       comment: null,
     })
   }

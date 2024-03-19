@@ -20,7 +20,7 @@ export class StudentPersonalComponent {
   schools!: School[];
   genders!: Gender[];
   errorSuccess!: errorSuccess;
-  editStudent:FormGroup;
+  editStudent!: FormGroup;
   FeeStructureList:FieldsFeeStructure[] = [];
 
   constructor(private studentService:StudentService,private router:Router,private httpClient:HttpClient){
@@ -29,9 +29,16 @@ export class StudentPersonalComponent {
       this.router.navigate(['/student']);
     }
 
-    this.FeeStructureList = this.studentService.FeeStructureList;
+    
 
-    console.log("EditStudentPersonalComponent C")
+    effect(() => {})
+  }
+  
+  ngOnInit(): void {
+    if(this.skipOnInit){
+      return;
+    }
+    this.FeeStructureList = this.studentService.FeeStructureList;
 
     this.editStudent = new FormGroup({
       id: new FormControl({ value: this.studentService.selectedStudent().id, disabled: true }),
@@ -43,22 +50,12 @@ export class StudentPersonalComponent {
       parents_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
       parents_mobile: new FormControl(null,[Validators.required,Validators.pattern("[+][0-9]{1,3}[0-9]{10}")]),
       school_name: new FormControl(this.studentService.schools[0].value,[Validators.required]),
-      fee_structure: new FormControl(this.FeeStructureList[0].id,[Validators.required]),
+      fee_structure_id: new FormControl(this.FeeStructureList[0].id,[Validators.required]),
       date_of_admission: new FormControl(null,[Validators.required]),
       comment: new FormControl(),
     });
 
-    effect(() => {})
-  }
-  
-  ngOnInit(): void {
-    if(this.skipOnInit){
-      return;
-    }
-    console.log("EditStudentPersonalComponent N")
-    console.log(this.studentService.selectedStudent())
     this.editStudent.patchValue(this.studentService.selectedStudent());
-
     this.standards = this.studentService.standards.slice(1);
     this.schools = this.studentService.schools;
     this.genders = this.studentService.genders;
@@ -136,6 +133,6 @@ export class StudentPersonalComponent {
     standard:  'Standard is required.',
     parents_name: 'Parents name is required and must be at least 3 characters long.',
     parents_mobile: 'Parents mobile number is required. & Please enter a valid mobile number.',
-    fee_structure: 'Fee structure is required.'
+    fee_structure_id: 'Fee structure is required.'
     }
 }

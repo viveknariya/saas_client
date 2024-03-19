@@ -1,8 +1,7 @@
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, Input, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { Standard, StudentService } from '../student/student.service';
 import { CommonModule } from '@angular/common';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { ResponsiveService } from '../responsive.service';
 
 @Component({
@@ -20,7 +19,7 @@ export class MenuComponent {
   isSmallScreen!:boolean;
   showSubMenu!:boolean;
 
-  showStudent!: boolean;
+  showStudent: boolean = true;
 
   constructor(private studentService:StudentService,private router:Router,private responsive:ResponsiveService){
     this.Standards = this.studentService.standards;

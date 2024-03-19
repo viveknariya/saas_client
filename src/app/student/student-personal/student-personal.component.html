@@ -1,3 +1,4 @@
+@if(!skipOnInit){
 @if(errorSuccess.errorSuccessMessage != ""){
 <div role="alert" class="absolute right-0 top-0 rounded-xl border border-gray-100 bg-gray-100 p-4">
     <div class="flex items-start gap-4">
@@ -105,7 +106,7 @@
 
                 <label class="block  font-medium text-gray-900"> Fee Structure </label>
 
-                <select formControlName="fee_structure" text
+                <select formControlName="fee_structure_id" text
                     class="mt-1.5 w-6/12 rounded-lg border-gray-300 text-gray-700 ">
                     @for (item of FeeStructureList;track item.id ) {
                     <option [value]="item.id">{{item.structure_name}}</option>
@@ -161,3 +162,4 @@
         </form>
     </div>
 </div>
+}
