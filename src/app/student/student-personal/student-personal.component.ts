@@ -2,15 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Component, effect } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Standard, School, Gender, RecordStudent, StudentService, FieldsStudent, errorSuccess } from '../student.service';
+import { Standard, School, Gender, StudentService, errorSuccess, Student } from '../student.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../environments/environment';
-import { FieldsFeeStructure } from '../../fee/fee.service';
+import { ErrorSuccessComponent } from '../../error-success/error-success.component';
+import { FeeStructure } from '../../fee/fee.service';
 
 @Component({
   selector: 'app-student-personal',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule,ErrorSuccessComponent],
   templateUrl: './student-personal.component.html',
   styleUrl: './student-personal.component.css'
 })
@@ -21,20 +22,20 @@ export class StudentPersonalComponent {
   genders!: Gender[];
   errorSuccess!: errorSuccess;
   editStudent!: FormGroup;
-  FeeStructureList:FieldsFeeStructure[] = [];
+  FeeStructureList:FeeStructure[] = [];
 
   constructor(private studentService:StudentService,private router:Router,private httpClient:HttpClient){
     if(this.studentService.selectedStudent().id == null || this.studentService.selectedStudent().id == ""){
       this.skipOnInit = true;
       this.router.navigate(['/student']);
     }
-
-    
-
-    effect(() => {})
   }
   
   ngOnInit(): void {
+    this.errorSuccess = {
+      isError : false,
+      errorSuccessMessage : ""  
+    }
     if(this.skipOnInit){
       return;
     }
@@ -50,7 +51,7 @@ export class StudentPersonalComponent {
       parents_name: new FormControl(null,[Validators.required,Validators.pattern("[a-zA-Z]{3,20}")]),
       parents_mobile: new FormControl(null,[Validators.required,Validators.pattern("[+][0-9]{1,3}[0-9]{10}")]),
       school_name: new FormControl(this.studentService.schools[0].value,[Validators.required]),
-      fee_structure_id: new FormControl(this.FeeStructureList[0].id,[Validators.required]),
+      fee_structure_id: new FormControl(this.studentService.FeeStructureList[0].id,[Validators.required]),
       date_of_admission: new FormControl(null,[Validators.required]),
       comment: new FormControl(),
     });
@@ -86,8 +87,8 @@ export class StudentPersonalComponent {
     }
 
     this.editStudent.controls["id"].enable();
-    this.httpClient.put<FieldsStudent>(`${environment.apiUrl}/api/student`,this.editStudent.value).subscribe({
-      next: (data:FieldsStudent) => {
+    this.httpClient.put<Student>(`${environment.apiUrl}/api/student`,this.editStudent.value).subscribe({
+      next: (data:Student) => {
         data.date_of_admission = (new Date(data.date_of_admission as string)).toISOString().split("T")[0];
         data.date_of_birth = (new Date(data.date_of_birth as string)).toISOString().split("T")[0];
         this.studentService.selectedStudent.set(data);
@@ -118,12 +119,7 @@ export class StudentPersonalComponent {
     this.editStudent.setValue(this.studentService.selectedStudent());
   }
 
-  popupClose(){
-    this.errorSuccess = {
-      isError : false,
-      errorSuccessMessage : ""
-    }
-  }
+  
 
   validationMessages = {
     first_name: 'First name is required and must be at least 3 characters long. valid char are a-z,A-Z',

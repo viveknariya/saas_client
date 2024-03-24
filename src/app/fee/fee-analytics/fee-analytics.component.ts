@@ -1,8 +1,8 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { FieldsFeeAnalytics } from '../fee.service';
 import Chart from 'chart.js/auto';
+import { FeeAnalyticsDto } from '../fee.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ import Chart from 'chart.js/auto';
   `
 })
 export class FeeAnalyticsComponent implements OnInit,AfterViewInit {
-  store:FieldsFeeAnalytics[] = [];
+  store:FeeAnalyticsDto[] = [];
   total:number = 0;
   paid:number = 120000;
   unpaid:number = 50000;

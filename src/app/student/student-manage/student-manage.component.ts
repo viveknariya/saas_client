@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { FieldsStudent, StudentService } from '../student.service';
+import {  Student, StudentService } from '../student.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class StudentManageComponent {
   skipOnInit:boolean = false;
-  selectedStudent!: FieldsStudent;
+  selectedStudent!: Student;
   isActiveTab:string = 'personal';
 
   constructor(private studentService:StudentService,private router:Router){

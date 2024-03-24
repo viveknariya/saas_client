@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { FieldsStudent} from '../../student/student.service';
-import { FeeService, FieldsFeeStructure } from '../fee.service';
+import { FeeService, FeeStructure, } from '../fee.service';
 
 @Component({
   selector: 'app-fee-structure',
@@ -13,14 +12,14 @@ import { FeeService, FieldsFeeStructure } from '../fee.service';
   styleUrl: './fee-structure.component.css'
 })
 export class FeeStructureComponent {
-  store:FieldsFeeStructure[] =[];
+  store:FeeStructure[] =[];
   constructor(private httpClient:HttpClient,private router:Router,private feeService:FeeService){
   }
 
   ngOnInit(): void {
-    this.httpClient.get<FieldsFeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
-      next: (data:FieldsFeeStructure[]) => {
-        this.store = data as FieldsFeeStructure[];
+    this.httpClient.get<FeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
+      next: (data:FeeStructure[]) => {
+        this.store = data as FeeStructure[];
       },
       error: (err) => {
       
@@ -35,7 +34,7 @@ export class FeeStructureComponent {
     this.router.navigate(['/fee/addEditFeeStructure']);
   }
 
-  manageStructure(item:FieldsFeeStructure){
+  manageStructure(item:FeeStructure){
     this.feeService.selectedFeeStructure.set(item);
     this.feeService.selectedFeeStructureFormMode.set(false);
     this.router.navigate(['/fee/addEditFeeStructure']);

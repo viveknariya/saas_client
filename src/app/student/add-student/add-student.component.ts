@@ -1,16 +1,17 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FieldsStudent, Gender, RecordStudent, School, Standard, StudentService, errorSuccess } from '../student.service';
+import { Gender, School, Standard, Student, StudentService, errorSuccess } from '../student.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { FieldsFeeStructure } from '../../fee/fee.service';
+import { ErrorSuccessComponent } from '../../error-success/error-success.component';
+import { FeeStructure } from '../../fee/fee.service';
 
 @Component({
   selector: 'app-add-student',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule,HttpClientModule,ErrorSuccessComponent],
   templateUrl: './add-student.component.html',
   styles:[`
     input, select, textarea{
@@ -26,7 +27,7 @@ export class AddStudentComponent implements OnInit {
   errorSuccess!: errorSuccess;
 
   addStudent:FormGroup;
-  FeeStructureList:FieldsFeeStructure[] = [];
+  FeeStructureList:FeeStructure[] = [];
 
   constructor(private studentService:StudentService,private router:Router,private httpClient:HttpClient){
     this.FeeStructureList = this.studentService.FeeStructureList;
@@ -43,10 +44,9 @@ export class AddStudentComponent implements OnInit {
       school_name: new FormControl(this.studentService.schools[0].value,[Validators.required]),
       fee_structure_id: new FormControl(this.studentService.FeeStructureList[0].id,[Validators.required]),
       date_of_admission: new FormControl(null,[Validators.required]),
-      comment: new FormControl(),
+      comment: new FormControl(null,[Validators.required]),
     });
 
-    effect(() => {})
   }
   
   ngOnInit(): void {
@@ -59,12 +59,11 @@ export class AddStudentComponent implements OnInit {
     this.genders = this.studentService.genders;
   }
 
-  backToStandard(){
-    this.router.navigate(['/student']);
-  }
-
   addStudentPersonal(){
-
+    this.errorSuccess = {
+      isError : false,
+      errorSuccessMessage : ""  
+    }
     for (const key in this.addStudent.controls) {
       if (this.addStudent.controls[key].errors != null) {
         this.errorSuccess = {
@@ -78,8 +77,8 @@ export class AddStudentComponent implements OnInit {
       return;
     }
     
-    this.httpClient.post<FieldsStudent>(`${environment.apiUrl}/api/student`,this.addStudent.value).subscribe({
-      next: (data:FieldsStudent) => {
+    this.httpClient.post<Student>(`${environment.apiUrl}/api/student`,this.addStudent.value).subscribe({
+      next: (data:Student) => {
         this.resetForm();
         this.errorSuccess = {
           isError : false,
@@ -110,12 +109,7 @@ export class AddStudentComponent implements OnInit {
     })
   }
 
-  popupClose(){
-    this.errorSuccess = {
-      isError : false,
-      errorSuccessMessage : ""
-    }
-  }
+
 
   validationMessages = {
     first_name: 'First name is required and must be at least 3 characters long. valid char are a-z,A-Z',

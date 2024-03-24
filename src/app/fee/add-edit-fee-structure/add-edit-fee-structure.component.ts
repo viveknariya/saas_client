@@ -3,7 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { FeeService, FieldsFeeStructure, Period } from '../fee.service';
+import { FeeService, FeeStructure, NameValue } from '../fee.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -17,12 +17,12 @@ export class AddEditFeeStructureComponent {
   isAddMode!: boolean;
   actionMessage!: string;
   addEditFeeStructure!: FormGroup;
-  Period:Period[] = [];
+  Period:NameValue[] = [];
 
   addEditStudentFee(){
     if(this.isAddMode){
-      this.httpClient.post<FieldsFeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
-        next: (data:FieldsFeeStructure) => {
+      this.httpClient.post<FeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
+        next: (data:FeeStructure) => {
           this.addEditFeeStructure.patchValue(data);
           this.actionMessage = "Added Successfully"
           setTimeout(() => {
@@ -37,8 +37,8 @@ export class AddEditFeeStructureComponent {
     }
     else{
         this.addEditFeeStructure.controls["id"].enable();
-        this.httpClient.put<FieldsFeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
-        next: (data:FieldsFeeStructure) => {
+        this.httpClient.put<FeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
+        next: (data:FeeStructure) => {
           this.addEditFeeStructure.patchValue(data);
           this.actionMessage = "Edited Successfully"
           setTimeout(() => {

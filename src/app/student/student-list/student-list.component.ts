@@ -1,5 +1,5 @@
 import { Component, effect } from '@angular/core';
-import { FieldsStudent, RecordStudent, Standard, StudentService } from '../student.service';
+import {  Standard, Student, StudentService } from '../student.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -13,10 +13,10 @@ import { environment } from '../../../environments/environment';
   styleUrl: './student-list.component.css'
 })
 export class StudentListComponent {
-  store:FieldsStudent[] =[];
-  data:FieldsStudent[] = [];
+  store:Student[] =[];
+  data:Student[] = [];
   searchStudent:FormControl;
-  selectedStudent!: RecordStudent;
+  selectedStudent!: Student;
   standard:FormControl;
 
   Standards:Standard[]=[];
@@ -39,7 +39,7 @@ export class StudentListComponent {
     this.searchStudent.valueChanges.subscribe({
       next: (val) => {
         console.log(val);
-        this.data = this.store.filter((student:FieldsStudent) => {
+        this.data = this.store.filter((student:Student) => {
           if((student.first_name.toLowerCase().includes(val.toLowerCase()) || student.last_name.toLowerCase().includes(val.toLowerCase())) && (student.standard == this.studentService.selectedStandard().value || this.studentService.selectedStandard().value == "all")){
               return true;
           }
@@ -54,7 +54,7 @@ export class StudentListComponent {
           this.data = this.store;
           return;
         }
-        this.data = this.store.filter((student:FieldsStudent) => {
+        this.data = this.store.filter((student:Student) => {
           if(student.standard == val){
             return true;
           }
@@ -63,17 +63,17 @@ export class StudentListComponent {
       }
     })
 
-    this.httpClient.get<FieldsStudent[]>(`${environment.apiUrl}/api/student`).subscribe({
-      next: (data:FieldsStudent[]) => {
-        this.store = data as FieldsStudent[];
-        this.data = data as FieldsStudent[];
+    this.httpClient.get<Student[]>(`${environment.apiUrl}/api/student`).subscribe({
+      next: (data:Student[]) => {
+        this.store = data as Student[];
+        this.data = data as Student[];
 
         const val = this.studentService.selectedStandard();
           if(val.value == "all"){
             this.data = this.store;
             return;
           }
-        this.data = this.store.filter((student:FieldsStudent) => {
+        this.data = this.store.filter((student:Student) => {
           if(student.standard == val.value){
             return true;
           }
@@ -92,7 +92,7 @@ export class StudentListComponent {
     this.router.navigate(['/student/addStudent'])
   }
 
-  manageStudent(item:FieldsStudent){
+  manageStudent(item:Student){
     item.date_of_admission = (new Date(item.date_of_admission as string)).toISOString().split("T")[0];
     item.date_of_birth = (new Date(item.date_of_birth as string)).toISOString().split("T")[0];
     this.studentService.selectedStudent.set(item);

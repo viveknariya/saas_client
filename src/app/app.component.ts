@@ -4,6 +4,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ResponsiveService } from './responsive.service';
+import { ErrorSuccessComponent } from './error-success/error-success.component';
 
 
 @Component({

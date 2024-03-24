@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { FieldsFeeStructure } from '../fee/fee.service';
 import { environment } from '../../environments/environment';
+import { FeeStructure } from '../fee/fee.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,14 +34,14 @@ export class StudentService {
   schools:School[] = [
     {name:"I. P. Savani High School, Surat",value:"ip-savani-high-school-surat"}
   ];
-  selectedStudent = signal<FieldsStudent>({} as FieldsStudent);
+  selectedStudent = signal<Student>({} as Student);
   selectedStandard = signal<Standard>(this.standards[0]);
-  FeeStructureList:FieldsFeeStructure[] = [];
+  FeeStructureList:FeeStructure[] = [];
 
   constructor(private http:HttpClient) { 
     this.selectedStandard.set(this.standards[0]);
     console.log("student service call")
-    this.http.get<FieldsFeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
+    this.http.get<FeeStructure[]>(`${environment.apiUrl}/api/FeeStructure`).subscribe({
       next:(nxt) => {
         this.FeeStructureList = nxt;
       },
@@ -54,15 +54,7 @@ export class StudentService {
     })
   }
 }
-export interface RootObjectStudent {
-  records: RecordStudent[];
-}
-export interface RecordStudent {
-  id: string;
-  createdTime: string;
-  fields: FieldsStudent;
-}
-export interface FieldsStudent {
+export interface Student {
   last_name: string;
   first_name: string;
   standard: string;

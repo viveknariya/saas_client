@@ -19,7 +19,6 @@
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Mode Of Transection</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Comment</th>
-                    <th class="px-4 py-2"></th>
                 </tr>
             </thead>
 
@@ -31,17 +30,6 @@
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection }}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.mode_of_transection }}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.comment }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                        <div class="text-xs flex gap-1">
-
-                            <button
-                                class="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                                (click)="editStudentFee(item)">Edit Fee</button>
-                            <button
-                                class="inline-block rounded bg-green-600 px-4 py-2 text-xs font-medium text-white hover:bg-green-700"
-                                (click)="deleteStudentFee(item)">Delete Fee</button>
-                        </div>
-                    </td>
                 </tr>
                 } @empty {
                 <label> There are no items. </label>

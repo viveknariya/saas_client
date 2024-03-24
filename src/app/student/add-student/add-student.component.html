@@ -1,38 +1,4 @@
-@if(errorSuccess.errorSuccessMessage != ""){
-<div role="alert" class="absolute right-0 top-0 rounded-xl border border-gray-100 bg-gray-100 p-4">
-    <div class="flex items-start gap-4">
-        <span [ngClass]="errorSuccess.isError ? 'text-red-600' : 'text-green-600'">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-6 w-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        </span>
-
-        <div class="flex-1">
-            <strong class="block font-medium text-gray-900">
-                @if(errorSuccess.isError){
-                ! Alert
-                }
-                @else{
-                OK
-                }
-            </strong>
-
-            <p class="mt-1  text-gray-700">{{errorSuccess.errorSuccessMessage}}</p>
-        </div>
-
-        <button class="text-gray-500 transition hover:text-gray-600" (click)="popupClose()">
-            <span class="sr-only">Dismiss popup</span>
-
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="h-6 w-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </div>
-</div>
-}
+<app-error-success [errorSuccess]="errorSuccess"></app-error-success>
 <div class="flex flex-col gap-1 w-full h-full overflow-y-auto no-scrollbar p-2">
     <span class="flex items-center">
         <span class="h-px flex-1 bg-black"></span>
@@ -45,7 +11,7 @@
             <div class="w-6/12 ipadmini:w-10/12">
                 <label class="block  font-medium text-gray-700"> ID </label>
 
-                <input type="text" placeholder="ID" formControlName="id"
+                <input type="text" placeholder="System Generated ID - Leave Empty" formControlName="id"
                     class="mt-1 w-full rounded-md border-gray-200 shadow-sm" />
             </div>
 
