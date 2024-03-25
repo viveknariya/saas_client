@@ -3,16 +3,16 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { environment } from '../../../environments/environment';
 import Chart from 'chart.js/auto';
 import { FeeAnalyticsDto } from '../fee.service';
+import { DateWithoutTPipe } from "../../date-without-t.pipe";
 
 
 @Component({
-  selector: 'app-fee-analytisc',
-  standalone: true,
-  imports: [HttpClientModule],
-  templateUrl: './fee-analytics.component.html',
-  styles:
-  `
-  `
+    selector: 'app-fee-analytisc',
+    standalone: true,
+    templateUrl: './fee-analytics.component.html',
+    styles: `
+  `,
+    imports: [HttpClientModule, DateWithoutTPipe]
 })
 export class FeeAnalyticsComponent implements OnInit,AfterViewInit {
   store:FeeAnalyticsDto[] = [];

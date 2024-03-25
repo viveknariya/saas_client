@@ -11,7 +11,7 @@ export class FeeService {
     {name:'Online',value:'online'},
     {name:'Other',value:'other'}
   ] 
-  selectedStudentFee = signal<Fee>({} as Fee);
+  selectedStudentFee = signal<FeeTransection>({} as FeeTransection);
 
   Period:NameValue[] = [
     {name:'Monthly',value:'month'},
@@ -31,14 +31,6 @@ export class FeeService {
   constructor() { }
   selectedFeeStructure = signal<FeeStructure>({} as FeeStructure);
   selectedFeeStructureFormMode = signal<boolean>(true);
-}
-export interface Fee {
-  amount: number;
-  student_id: string;
-  id: number;
-  mode_of_transection?: string;
-  date_of_transection: string;
-  comment:string;
 }
 
 export interface FeeTransectionDto {

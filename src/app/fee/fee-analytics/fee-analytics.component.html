@@ -12,14 +12,14 @@
             <thead>
                 <tr>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Student ID</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">First Name</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Last Name</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Standard</th>
+
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Total Fee</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Paid Fee</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">UnPaid Fee</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Last Transection</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Last Transaction</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left">Student ID : Standard :
+                        Name</th>
+
                 </tr>
             </thead>
 
@@ -27,16 +27,16 @@
                 @for (item of store;track item.id) {
                 <tr class="h-10 border-b text-center">
                     <td class="whitespace-nowrap px-4 py-2 text-gray-900">{{ item.id }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-900">{{ item.student_id }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.first_name }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.last_name }}
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.standard }}
-                    </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.total_fee }}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.paid_fee }}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.total_fee - item.paid_fee }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection | dateWithoutT}}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2  text-gray-900 text-left">{{ item.student_id }} : {{
+                        item.standard }} :
+                        {{ item.first_name + "
+                        " + item.last_name }}</td>
                 </tr>
                 } @empty {
                 <label> There are no items. </label>

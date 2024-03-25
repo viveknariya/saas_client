@@ -7,14 +7,14 @@
             <thead>
                 <tr>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Student ID</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">First Name</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Last Name</th>
-                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Standard</th>
+
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Amount</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Type</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Mode Of Transaction</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date Of Transaction</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Comment</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-left">Student ID : Standard :
+                        Name</th>
                 </tr>
             </thead>
 
@@ -22,16 +22,19 @@
                 @for (item of store;track item.id) {
                 <tr class="h-10 border-b text-center">
                     <td class="whitespace-nowrap px-4 py-2  text-gray-900">{{ item.id }}</td>
-                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">{{ item.student_id }}</td>
-                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">{{ item.first_name }}</td>
-                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">{{ item.last_name }}</td>
-                    <td class="whitespace-nowrap px-4 py-2  text-gray-900">{{ item.standard }}</td>
+
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.amount }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.mode_of_transection | dateWithoutT }}
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.is_credit ? 'Credit' : 'Debit' }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.mode_of_transection |
+                        dateWithoutT }}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection | dateWithoutT }}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.comment }}</td>
+                    <td class="whitespace-nowrap px-4 py-2  text-gray-900 text-left">{{ item.student_id }} : {{
+                        item.standard }} :
+                        {{ item.first_name + "
+                        " + item.last_name }}</td>
                 </tr>
                 } @empty {
                 <label> There are no items. </label>

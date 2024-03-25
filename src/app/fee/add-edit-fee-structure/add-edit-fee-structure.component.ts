@@ -5,28 +5,37 @@ import { HttpClient } from '@angular/common/http';
 
 import { FeeService, FeeStructure, NameValue } from '../fee.service';
 import { environment } from '../../../environments/environment';
+import { errorSuccess } from '../../student/student.service';
+import { ErrorSuccessComponent } from "../../error-success/error-success.component";
 
 @Component({
-  selector: 'app-add-edit-fee-structure',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './add-edit-fee-structure.component.html',
-  styleUrl: './add-edit-fee-structure.component.css'
+    selector: 'app-add-edit-fee-structure',
+    standalone: true,
+    templateUrl: './add-edit-fee-structure.component.html',
+    styleUrl: './add-edit-fee-structure.component.css',
+    imports: [ReactiveFormsModule, ErrorSuccessComponent]
 })
 export class AddEditFeeStructureComponent {
   isAddMode!: boolean;
-  actionMessage!: string;
+  errorSuccess!: errorSuccess;
   addEditFeeStructure!: FormGroup;
   Period:NameValue[] = [];
 
-  addEditStudentFee(){
+  addEditStudentFeeStructure(){
     if(this.isAddMode){
       this.httpClient.post<FeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
         next: (data:FeeStructure) => {
-          this.addEditFeeStructure.patchValue(data);
-          this.actionMessage = "Added Successfully"
+          this.resetForm();
+          this.errorSuccess = {
+            isError: false,
+            errorSuccessMessage: "Added Successfully",
+          
+          }
           setTimeout(() => {
-            this.actionMessage = "";
+            this.errorSuccess = {
+              isError: false,
+              errorSuccessMessage: "",
+            }
           }, 2000);
         },
         error: (error:any) => {
@@ -40,9 +49,16 @@ export class AddEditFeeStructureComponent {
         this.httpClient.put<FeeStructure>(`${environment.apiUrl}/api/FeeStructure`,this.addEditFeeStructure.value).subscribe({
         next: (data:FeeStructure) => {
           this.addEditFeeStructure.patchValue(data);
-          this.actionMessage = "Edited Successfully"
+          this.errorSuccess = {
+            isError: false,
+            errorSuccessMessage: "Edited Successfully",
+
+          } 
           setTimeout(() => {
-            this.actionMessage = "";
+            this.errorSuccess = {
+              isError: false,
+              errorSuccessMessage: "",
+            };
           }, 2000);
         },
         error: (error:any) => {
@@ -61,7 +77,10 @@ export class AddEditFeeStructureComponent {
 
   constructor(private feeService:FeeService,private router:Router,private httpClient:HttpClient){
     this.Period = feeService.Period;
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError: false,
+      errorSuccessMessage: "",
+    };
     this.isAddMode = this.feeService.selectedFeeStructureFormMode();
     this.addEditFeeStructure = new FormGroup({
       id:new FormControl({value:this.feeService.selectedFeeStructure().id,disabled:true}),
@@ -77,6 +96,9 @@ export class AddEditFeeStructureComponent {
   }
 
   popupClose(){
-    this.actionMessage = "";
+    this.errorSuccess = {
+      isError: false,
+      errorSuccessMessage: "",
+    };
   }
 }

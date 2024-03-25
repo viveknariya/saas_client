@@ -1,8 +1,4 @@
 <div class="px-4 py-2">
-    <div class="py-2 text-gray-400">
-        Fees List
-    </div>
-
     <div class="flex justify-end p-1">
         <button
             class="inline-block rounded border border-indigo-600 bg-indigo-600 px-8 py-3  font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
@@ -17,6 +13,8 @@
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">ID</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Amount</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Type</th>
+                    <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Type Of Fee</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Mode Of Transection</th>
                     <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Comment</th>
                 </tr>
@@ -27,7 +25,11 @@
                 <tr class="h-10 border-b text-center">
                     <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{{ item.id }}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.amount }}</td>
-                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.date_of_transection | dateWithoutT }}
+                    </td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.is_credit ? 'Credit' : 'Debit' }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.type_of_fee }}</td>
+
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.mode_of_transection }}</td>
                     <td class="whitespace-nowrap px-4 py-2 text-gray-700">{{ item.comment }}</td>
                 </tr>

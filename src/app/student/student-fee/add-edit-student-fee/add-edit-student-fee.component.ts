@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Fee, FeeService, NameValue } from '../../../fee/fee.service';
+import { FeeService, FeeTransection, NameValue } from '../../../fee/fee.service';
 import { StudentService, errorSuccess } from '../../student.service';
 import { environment } from '../../../../environments/environment';
 import { CommonModule } from '@angular/common';
@@ -23,7 +23,16 @@ export class AddEditStudentFeeComponent {
   typeOfTransection!: NameValue[];
 
   resetForm(){
-      this.addEditFee.setValue(this.feeService.selectedStudentFee());
+      this.addEditFee.setValue({
+        id:null,
+        date_of_transection: this.formatDate(new Date),
+        amount: null,
+        is_credit: true,
+        type_of_fee: this.typeOfFee[0].value,
+        mode_of_transection:  this.modeOfTransections[0].value,
+        comment: null,
+        student_id: this.studentService.selectedStudent().id
+      });
   }
 
   constructor(private feeService:FeeService,private router:Router,private httpClient:HttpClient,private studentService:StudentService){
@@ -42,10 +51,10 @@ export class AddEditStudentFeeComponent {
       student_id:new FormControl({value:this.studentService.selectedStudent().id,disabled:true}),
       date_of_transection:new FormControl(this.formatDate(new Date),[Validators.required]),
       amount: new FormControl(null,[Validators.required,Validators.pattern("[0-9]+")]),
-      is_credit:new FormControl(this.typeOfTransection[0].value,[Validators.required]),
+      is_credit:new FormControl<boolean>(this.typeOfTransection[0].value,[Validators.required]),
       type_of_fee:new FormControl(this.typeOfFee[0].value,[Validators.required]),
       mode_of_transection : new FormControl(this.modeOfTransections[0].value,[Validators.required]),
-      comment:new FormControl(),
+      comment:new FormControl(null,[Validators.required]),
     })
     
   }
@@ -69,9 +78,20 @@ export class AddEditStudentFeeComponent {
       return;
     }
 
+    let payload:FeeTransection = {
+      id: 0,
+      date_of_transection: this.addEditFee.value.date_of_transection,
+      amount: this.addEditFee.value.amount,
+      is_credit: this.addEditFee.value.is_credit == "true" ? true : false,
+      type_of_fee: this.addEditFee.value.type_of_fee,
+      mode_of_transection:  this.addEditFee.value.mode_of_transection,
+      comment: this.addEditFee.value.comment,
+      student_id: +this.studentService.selectedStudent().id
+    }
+
       this.addEditFee.controls["student_id"].enable();
-      this.httpClient.post<Fee>(`${environment.apiUrl}/api/FeeTransection`,this.addEditFee.value).subscribe({
-        next: (data:Fee) => {
+      this.httpClient.post<FeeTransection>(`${environment.apiUrl}/api/FeeTransection`,payload).subscribe({
+        next: (data:FeeTransection) => {
           this.resetForm();
           this.errorSuccess = {
             isError: false,

@@ -3,18 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Student, StudentService } from '../student.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { Fee } from '../../fee/fee.service';
+import { DateWithoutTPipe } from "../../date-without-t.pipe";
+import { FeeTransection } from '../../fee/fee.service';
 
 @Component({
-  selector: 'app-student-fee',
-  standalone: true,
-  imports: [],
-  templateUrl: './student-fee.component.html'
+    selector: 'app-student-fee',
+    standalone: true,
+    templateUrl: './student-fee.component.html',
+    imports: [DateWithoutTPipe]
 })
 export class StudentFeeComponent implements OnInit {
 
   skipOnInit:boolean = false;
-  store:Fee[] =[];
+  store:FeeTransection[] =[];
   selectedStudent!: Student;
 
   constructor(private studentService:StudentService,private router:Router,private httpClient:HttpClient) {
@@ -30,8 +31,8 @@ export class StudentFeeComponent implements OnInit {
     }
     this.selectedStudent = this.studentService.selectedStudent();
 
-    this.httpClient.get<Fee[]>(`${environment.apiUrl}/api/FeeTransection/student/${this.selectedStudent.id}`).subscribe({
-      next: (nxt:Fee[]) => {
+    this.httpClient.get<FeeTransection[]>(`${environment.apiUrl}/api/FeeTransection/student/${this.selectedStudent.id}`).subscribe({
+      next: (nxt:FeeTransection[]) => {
         this.store = nxt;
       }
     })
